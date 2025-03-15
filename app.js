@@ -25,9 +25,9 @@ const transporter = nodemailer.createTransport({
 });
 
 app.post("/send-email", async (req, res) => {
-  const { to, subject, text } = req.body;
+  const { to, subject, from, html, caseId, workerName } = req.body;
 
-  if (!to || !subject || !text) {
+  if (!to || !subject || !from) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
@@ -36,7 +36,9 @@ app.post("/send-email", async (req, res) => {
       from: process.env.EMAIL,
       to,
       subject,
-      text,
+      html,
+      caseId,
+      workerName,
     });
     res.json({ message: "Email sent successfully" });
   } catch (error) {
